@@ -5,10 +5,14 @@ defmodule Hello.Application do
 
   use Application
 
+  @spec start(any, any) :: {:error, any} | {:ok, pid}
   def start(_type, _args) do
+    import Supervisor.Spec
+
     children = [
-      # Starts a worker by calling: Hello.Worker.start_link(arg)
-      # {Hello.Worker, arg}
+      # Starts the Subscriber by calling: Hello.Subscriber.start_link(arg)
+      worker(Extreme, [Application.get_env(:extreme, :event_store), [name: Hello.EventStore]]),
+      {Hello.Subscriber, Hello.EventStore}
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html
