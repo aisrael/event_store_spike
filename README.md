@@ -1,21 +1,40 @@
-# Hello
+# event_store_spike
 
-**TODO: Add description**
+This is an example Elixir project that demonstrates EventStore and the [Extreme]
 
-## Installation
+### Prerequisites
 
-If [available in Hex](https://hex.pm/docs/publish), the package can be installed
-by adding `hello` to your list of dependencies in `mix.exs`:
+- Docker & `docker-compose`
+- Elixir 1.9.x
 
-```elixir
-def deps do
-  [
-    {:hello, "~> 0.1.0"}
-  ]
-end
+### Usage
+
+First, run EventStore (using Docker):
+
+```
+$ docker-compose up -d
 ```
 
-Documentation can be generated with [ExDoc](https://github.com/elixir-lang/ex_doc)
-and published on [HexDocs](https://hexdocs.pm). Once published, the docs can
-be found at [https://hexdocs.pm/hello](https://hexdocs.pm/hello).
+Next, start the application using `iex`:
 
+```
+$ iex -S mix
+```
+
+That automatically starts the `Hello.Subscriber` listening on the `hello` events stream.
+
+#### To send a message
+
+```
+iex> Hello.hello("test one")
+```
+
+#### To read previous messages (from a given offset)
+
+```
+iex> Hello.read_events(0)
+```
+
+### See it in action:
+
+[![asciicast](https://asciinema.org/a/05hIxwCzJdVD5OoNo8YTr14zS.svg)](https://asciinema.org/a/05hIxwCzJdVD5OoNo8YTr14zS)
